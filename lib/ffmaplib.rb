@@ -43,6 +43,11 @@ class Node
     "<Node[#{@name.empty? ? '' : '"'+@name+'", '}\"#{@id}\"] flags: [#{@online ? 'On ' : ''}#{@client ? 'Cl ' : ''}#{@gateway ? 'Gw ' : ''}] #{@macs} Links: #{@links}>"
   end
 
+  #name, or, if not present, MAC -> any identification given
+  def label
+    @name.to_s.empty? ? @id : @name
+  end
+
   #--- Link filters ---
 
   #return all linked nodes
@@ -209,6 +214,11 @@ class NodeWrapper
   #return just ID MACs of the node set (e.g. useful for clients)
   def ids
     @nodes.map(&:id)
+  end
+
+  #name, or, if not present, MAC
+  def labels
+    @nodes.map(&:label)
   end
 
   #---- serialization ----
