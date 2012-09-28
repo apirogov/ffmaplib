@@ -7,7 +7,7 @@
 require 'open-uri'
 require 'json'
 
-DEFSRC = 'http://burgtor.ffhl/mesh/nodes.json'
+DEFAULT_NODESRC = 'http://burgtor.ffhl/mesh/nodes.json'
 
 class NodeLink
   attr_accessor :to, :type, :quality
