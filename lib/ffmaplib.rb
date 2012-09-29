@@ -135,6 +135,14 @@ class NodeWrapper
         @nodes[dst].links << NodeLink.new(@nodes[src], type, quality[1]) if quality.length > 1
       end
     end
+
+    #build up lookup caches for speed
+    @lookup_name = {}
+    @lookup_mac = {}
+    @nodes.each do |n|
+      @lookup_name[n.name] = n
+      n.macs.each{|m| @lookup_mac[m] = n}
+    end
   end
 
   # chainable selectors
@@ -184,8 +192,8 @@ class NodeWrapper
   #find by name or mac or access by index or range
   def [](n)
     if n.class == String
-      ret = @nodes.find{|e| e.name == n}
-      ret = @nodes.find{|e| e.macs.index(n)} if !ret
+      ret = @lookup_name[n]
+      ret = @lookup_mac[n] if !ret
       return ret
     end
     @nodes[n]
