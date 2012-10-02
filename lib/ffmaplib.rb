@@ -248,6 +248,8 @@ class NodeWrapper
 
   def expand_mac(str)
     return str if str.index(':')  #is already regular mac format
+    str = str[-12..-1] if str.length>12  #not regular mac -> remove nodes_ prefix..
+    #.. and add colons
     newmac = ''
     0.upto(str.length-1) do |i|
       newmac += str[i]
