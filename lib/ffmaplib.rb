@@ -107,7 +107,7 @@ class NodeWrapper
 
     @nodes = []
     data['nodes'].each do |n|
-      @nodes << Node.new(n['id'], n['name'], n['macs'], \
+      @nodes << Node.new(expand_mac(n['id']), n['name'], n['macs'], \
         n['flags']['client'], n['flags']['online'], n['flags']['gateway'], \
         n['geo'])
     end
@@ -242,5 +242,17 @@ class NodeWrapper
     wrap = self.new nodes
     nodes.each{|e| e.links.each{|l| l.to = wrap[l.to]}}
     wrap
+  end
+
+  private
+
+  def expand_mac(str)
+    return str if str.index(':')  #is already regular mac format
+    newmac = ''
+    0.upto(str.length-1) do |i|
+      newmac += str[i]
+      newmac += ':' if i.odd?
+    end
+    return newmac[0...17]
   end
 end
